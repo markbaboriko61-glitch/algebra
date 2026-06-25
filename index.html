@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ответы к экзамену — Алгебра и теория чисел</title>
+<style>
+/* ===== _base.css ===== */
+/*
+ * _base.css — Global design tokens, element defaults, page shell, and tiny utilities.
+ * ALWAYS included in every page.
+ *
+ * Provides:
+ *   :root variables (light + dark), box-sizing, html/body,
+ *   element defaults (button, input, select, textarea, label, fieldset, legend,
+ *   a, hr, img, h1-h4, p, ul/ol/li, blockquote, table/th/td, details/summary,
+ *   pre/code), main / .notion-shell, utility classes, .notion-footer,
+ *   reduced-motion and responsive breakpoints for base elements.
+ */
+
+:root {
+	color-scheme: light dark;
+	--notion-bg: #ffffff;
+	--notion-bg-soft: #f9f9f8;
+	--notion-surface: #ffffff;
+	--notion-surface-hover: #f6f5f4;
+	--notion-text: #191918;
+	--notion-text-soft: rgba(0, 0, 0, 0.54);
+	--notion-text-faint: rgba(0, 0, 0, 0.3);
+	--notion-border: rgba(0, 0, 0, 0.1);
+	--notion-border-soft: rgba(0, 0, 0, 0.05);
+	--notion-shadow:
+		0px 0.7px 1.462px rgba(0, 0, 0, 0.015), 0px 3px 9px rgba(0, 0, 0, 0.03);
+	--notion-blue: #2783de;
+	--notion-orange: #d5803b;
+	--notion-red: #e56458;
+	--notion-blue-bg: #f3f9fd;
+	--notion-yellow-bg: #fcfaef;
+	--notion-orange-bg: #fcf7f4;
+	--notion-green-bg: #f6f9f7;
+	--notion-red-bg: #fdf6f6;
+	--notion-gray-bg: #f9f8f7;
+	--notion-radius: 8px;
+	--notion-page-width: 900px;
+	--notion-chart-1: #5e9fe8;
+	--notion-chart-2: #eac26b;
+	--notion-chart-3: #72bc8f;
+	--notion-chart-4: #bf8eda;
+	--notion-chart-5: #de9255;
+	--notion-chart-6: #df84a8;
+	--notion-chart-7: #4fb9c9;
+	--notion-chart-8: #e97366;
+	--diff-add: #47c1b6;
+	--diff-del: #f07070;
+	--pr-approved: #2b8a3e;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--notion-bg: #000000;
+		--notion-bg-soft: #191918;
+		--notion-surface: #191918;
+		--notion-surface-hover: #31302e;
+		--notion-text: #ffffff;
+		--notion-text-soft: rgba(255, 255, 255, 0.5);
+		--notion-text-faint: rgba(255, 255, 255, 0.3);
+		--notion-border: rgba(255, 255, 255, 0.2);
+		--notion-border-soft: rgba(255, 255, 255, 0.1);
+		--notion-shadow:
+			0px 0.7px 1.462px rgba(0, 0, 0, 0.06), 0px 3px 9px rgba(0, 0, 0, 0.12);
+		--notion-blue: #5e9fe8;
+		--notion-orange: #de9255;
+		--notion-red: #e97366;
+		--notion-blue-bg: rgba(41, 139, 253, 0.061);
+		--notion-yellow-bg: rgba(203, 145, 47, 0.08);
+		--notion-orange-bg: rgba(246, 126, 35, 0.08);
+		--notion-green-bg: rgba(42, 157, 118, 0.08);
+		--notion-red-bg: rgba(246, 73, 50, 0.08);
+		--notion-gray-bg: #31302e;
+		--diff-add: #5dd8cb;
+		--diff-del: #ff8a80;
+		--pr-approved: #69db7c;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+html {
+	scroll-behavior: smooth;
+}
+body {
+	margin: 0;
+	background: var(--notion-bg);
+	color: var(--notion-text);
+	font-family:
+		ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+		"Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	transition:
+		background 180ms ease,
+		color 180ms ease;
+}
+
+/* -- Base element defaults -------------------------------- */
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 16px;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.2;
+	color: #ffffff;
+	background: var(--notion-blue);
+	border: 1px solid transparent;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 150ms;
+	white-space: nowrap;
+}
+button:hover,
+[type="button"]:hover,
+[type="submit"]:hover,
+[type="reset"]:hover {
+	background: color-mix(in srgb, var(--notion-blue) 82%, black);
+}
+button:focus-visible,
+[type="button"]:focus-visible,
+[type="submit"]:focus-visible,
+[type="reset"]:focus-visible {
+	outline: 2px solid var(--notion-blue);
+	outline-offset: 2px;
+}
+
+input,
+select,
+textarea {
+	font: inherit;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--notion-text);
+	background: var(--notion-surface);
+	border: 1px solid var(--notion-border);
+	border-radius: 8px;
+	padding: 8px 12px;
+	transition: border-color 150ms;
+}
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+	border-color: var(--notion-blue);
+	box-shadow: 0 0 0 2px rgba(9, 127, 232, 0.15);
+}
+input::placeholder,
+textarea::placeholder {
+	color: var(--notion-text-faint);
+}
+select {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	padding-right: 30px;
+}
+textarea {
+	resize: vertical;
+	min-height: 80px;
+}
+input[type="range"] {
+	border: none;
+	padding: 0;
+	background: transparent;
+	accent-color: var(--notion-blue);
+	height: 18px;
+	cursor: pointer;
+	box-shadow: none;
+}
+input[type="range"]:focus {
+	box-shadow: none;
+}
+input[type="checkbox"],
+input[type="radio"] {
+	width: 16px;
+	height: 16px;
+	accent-color: var(--notion-blue);
+	border: 1px solid var(--notion-border);
+	padding: 0;
+	cursor: pointer;
+}
+label {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--notion-text);
+	margin-bottom: 6px;
+}
+fieldset {
+	border: 1px solid var(--notion-border-soft);
+	border-radius: 10px;
+	padding: 16px;
+	margin: 0;
+}
+legend {
+	font-weight: 600;
+	padding: 0 4px;
+}
+
+a {
+	color: var(--notion-text);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-color: var(--notion-border);
+}
+a:hover {
+	text-decoration-color: var(--notion-text);
+}
+
+hr {
+	height: 1px;
+	margin: 34px 0;
+	border: none;
+	background: var(--notion-border-soft);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 8px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	text-wrap: balance;
+}
+h1 {
+	margin: 0 0 14px;
+	font-size: clamp(42px, 7vw, 72px);
+	line-height: 1.1;
+	letter-spacing: -0.035em;
+	font-weight: 700;
+}
+h2 {
+	margin: 44px 0 10px;
+	font-size: 32px;
+	line-height: 1.25;
+	letter-spacing: -0.025em;
+}
+h3 {
+	margin: 0 0 6px;
+	font-size: 18px;
+	line-height: 1.556;
+	letter-spacing: -0.007em;
+}
+p {
+	margin: 0 0 10px;
+}
+
+ul,
+ol {
+	margin: 8px 0 16px;
+	padding-left: 24px;
+}
+li {
+	margin-bottom: 4px;
+}
+li::marker {
+	color: var(--notion-text-faint);
+}
+
+blockquote {
+	border-left: 3px solid var(--notion-text);
+	padding: 4px 0 4px 16px;
+	margin: 24px 0;
+}
+blockquote p {
+	font-size: 18px;
+	line-height: 1.5;
+	margin: 0;
+}
+
+table {
+	width: 100%;
+	margin: 14px 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 1px solid var(--notion-border-soft);
+	border-radius: 10px;
+	overflow: hidden;
+	background: var(--notion-surface);
+	font-size: 14px;
+}
+th,
+td {
+	padding: 12px 14px;
+	vertical-align: top;
+	text-align: left;
+	border-right: 1px solid var(--notion-border-soft);
+	border-bottom: 1px solid var(--notion-border-soft);
+}
+th:last-child,
+td:last-child {
+	border-right: 0;
+}
+tr:last-child td {
+	border-bottom: 0;
+}
+th {
+	background: var(--notion-bg-soft);
+	color: var(--notion-text-soft);
+	font-weight: 600;
+}
+
+details {
+	margin: 16px 0;
+	border-radius: var(--notion-radius);
+}
+summary {
+	padding: 8px 10px;
+	border-radius: var(--notion-radius);
+	cursor: pointer;
+	font-weight: 600;
+}
+summary:hover {
+	background: var(--notion-surface-hover);
+}
+details p {
+	margin: 8px 10px 0 28px;
+	color: var(--notion-text-soft);
+}
+
+pre,
+code {
+	font-family: ui-monospace, "iA Writer Mono", Nitti, Menlo, Courier, monospace;
+}
+pre {
+	margin: 16px 0;
+	padding: 14px 16px;
+	overflow-x: auto;
+	border: 1px solid var(--notion-border-soft);
+	border-radius: 10px;
+	background: var(--notion-gray-bg);
+	font-size: 13px;
+	line-height: 1.55;
+}
+code {
+	font-size: 0.9em;
+	padding: 2px 5px;
+	border-radius: 4px;
+	background: var(--notion-gray-bg);
+}
+pre code {
+	font-size: inherit;
+	padding: 0;
+	border-radius: 0;
+	background: none;
+}
+
+main {
+	max-width: var(--notion-page-width);
+	margin: 0 auto;
+	padding: 76px 24px 88px;
+}
+
+section {
+	margin-top: 44px;
+}
+section:first-child {
+	margin-top: 0;
+}
+
+/* -- Page shell ------------------------------------------- */
+.notion-shell {
+	max-width: var(--notion-page-width);
+	margin: 0 auto;
+	padding: 76px 24px 88px;
+}
+
+/* -- Tiny utilities --------------------------------------- */
+.notion-lede {
+	max-width: 720px;
+	margin: 0 0 24px;
+	color: var(--notion-text-soft);
+	font-size: 20px;
+}
+.notion-muted {
+	color: var(--notion-text-soft);
+}
+.notion-faint {
+	color: var(--notion-text-faint);
+}
+.notion-divider {
+	height: 1px;
+	margin: 34px 0;
+	background: var(--notion-border-soft);
+}
+.notion-eyebrow {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.0078125rem;
+	text-transform: uppercase;
+	color: var(--notion-blue);
+}
+
+/* -- Footer ----------------------------------------------- */
+.notion-footer {
+	margin-top: 52px;
+	padding-top: 18px;
+	border-top: 1px solid var(--notion-border-soft);
+	color: var(--notion-text-faint);
+	font-size: 13px;
+}
+
+/* -- Accessibility & motion ------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* -- Responsive: 560px (base elements) -------------------- */
+@media (max-width: 560px) {
+	main,
+	.notion-shell {
+		padding-inline: 16px;
+	}
+	table {
+		display: block;
+		overflow-x: auto;
+	}
+}
+
+
+/* ===== hero.css ===== */
+/*
+ * hero — Full-width hero section with title, subtitle, and optional eyebrow.
+ *
+ * HTML:
+ * <section class="notion-hero">
+ *   <span class="notion-eyebrow">Category</span>
+ *   <h1>Page Title</h1>
+ *   <p>A brief description that supports the title with additional context.</p>
+ *   <div class="notion-button-group">
+ *     <a class="notion-button" data-variant="primary" href="#">Get started</a>
+ *     <a class="notion-button" data-variant="secondary" href="#">Learn more</a>
+ *   </div>
+ * </section>
+ */
+
+.notion-hero {
+	padding: 48px 0 40px;
+	max-width: var(--notion-page-width);
+}
+.notion-hero h1 {
+	font-size: clamp(42px, 7vw, 72px);
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	line-height: 1.05;
+	margin: 0;
+	text-wrap: balance;
+}
+.notion-hero p {
+	font-size: 20px;
+	line-height: 1.5;
+	color: var(--notion-text-soft);
+	margin: 16px 0 0;
+	max-width: 640px;
+}
+.notion-hero .notion-eyebrow {
+	margin-bottom: 12px;
+}
+
+/* -- Responsive: 820px ------------------------------------ */
+@media (max-width: 820px) {
+	.notion-hero {
+		padding: 32px 0 24px;
+	}
+	.notion-hero h1 {
+		font-size: clamp(32px, 8vw, 48px);
+	}
+}
+
+
+/* ===== callout.css ===== */
+/*
+ * callout — Highlighted info box with icon and text.
+ * Options: data-tone="blue" | "green" | "orange" | "red" (default: yellow)
+ *
+ * HTML:
+ * <div class="notion-callout" data-tone="blue">
+ *   <div>💡</div>
+ *   <div><strong>Note</strong><p>Helpful context.</p></div>
+ * </div>
+ */
+
+.notion-callout {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 14px;
+	margin: 18px 0;
+	padding: 16px 18px;
+	border-radius: var(--notion-radius);
+	background: var(--notion-yellow-bg);
+	box-shadow: inset 0 0 0 1px var(--notion-border-soft);
+}
+.notion-callout[data-tone="blue"] {
+	background: var(--notion-blue-bg);
+}
+.notion-callout[data-tone="green"] {
+	background: var(--notion-green-bg);
+}
+.notion-callout[data-tone="orange"] {
+	background: var(--notion-orange-bg);
+}
+.notion-callout[data-tone="red"] {
+	background: var(--notion-red-bg);
+}
+.notion-callout strong {
+	display: block;
+	margin-bottom: 3px;
+}
+.notion-callout p {
+	margin: 0;
+	color: var(--notion-text-soft);
+}
+
+
+/* ===== list.css ===== */
+/*
+ * list — Numbered list with index badges and descriptions.
+ *
+ * HTML:
+ * <div class="notion-list">
+ *   <div class="notion-list-item">
+ *     <div class="notion-index">1</div>
+ *     <div>
+ *       <h3>Item</h3>
+ *       <p>Item details.</p>
+ *     </div>
+ *   </div>
+ * </div>
+ */
+
+.notion-list {
+	display: grid;
+	gap: 8px;
+	margin-top: 14px;
+}
+.notion-list-item {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 12px;
+	padding: 12px 14px;
+	border-radius: var(--notion-radius);
+	background: transparent;
+	transition: background 120ms ease;
+}
+.notion-list-item:hover {
+	background: var(--notion-surface-hover);
+}
+.notion-index {
+	width: 28px;
+	height: 28px;
+	display: grid;
+	place-items: center;
+	border-radius: 6px;
+	background: var(--notion-blue-bg);
+	color: var(--notion-blue);
+	font-weight: 700;
+	font-size: 14px;
+}
+.notion-list-item p {
+	color: var(--notion-text-soft);
+}
+
+
+/* ===== toggle.css ===== */
+/*
+ * toggle — Alias for the base <details> element.
+ * No additional styles beyond _base.css defaults.
+ *
+ * HTML:
+ * <details class="notion-toggle">
+ *   <summary>More detail</summary>
+ *   <p>Hidden content.</p>
+ * </details>
+ */
+
+/* .notion-toggle is now an alias -- bare <details> is styled identically */
+
+
+/* ===== code.css ===== */
+/*
+ * code — Alias for the base <pre><code> element.
+ * No additional styles beyond _base.css defaults.
+ *
+ * HTML:
+ * <pre class="notion-code"><code>monthly = principal * r * (1 + r)^n / ((1 + r)^n - 1)</code></pre>
+ */
+
+/* .notion-code is now an alias -- bare <pre><code> is styled identically */
+
+
+.qa-toc { margin: 8px 0 40px; }
+.qa-toc ol { columns: 2; column-gap: 32px; padding-left: 20px; }
+.qa-toc li { margin: 4px 0; break-inside: avoid; }
+.qa-toc a { color: var(--notion-text-soft); text-decoration: none; }
+.qa-toc a:hover { color: var(--notion-blue); text-decoration: underline; }
+.qa-section { padding: 28px 0; border-top: 1px solid var(--notion-border-soft); scroll-margin-top: 24px; }
+.qa-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; padding: 0 9px; border-radius: 999px; background: var(--notion-blue-bg); color: var(--notion-blue); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+.qa-badge[data-kind="p"] { background: var(--notion-orange-bg); color: var(--notion-orange); }
+.qa-section h2 { margin: 6px 0 14px; font-size: 24px; letter-spacing: -0.02em; }
+.qa-answer p { line-height: 1.7; }
+.qa-answer code { white-space: nowrap; }
+.qa-answer pre { white-space: pre; overflow-x: auto; }
+.qa-top { font-size: 13px; color: var(--notion-text-faint); text-decoration: none; margin-left: 10px; }
+.qa-top:hover { color: var(--notion-blue); }
+.section-divider { margin: 56px 0 8px; padding-top: 40px; border-top: 2px solid var(--notion-border); }
+.section-divider h2 { font-size: 32px; letter-spacing: -0.03em; margin: 0; }
+.section-divider p { color: var(--notion-text-soft); margin: 10px 0 0; }
+
+</style>
+</head>
+<body>
+<main class="notion-shell" id="top">
+  <section class="notion-hero">
+    <span class="notion-eyebrow">Алгебра и теория чисел</span>
+    <h1>Ответы к экзамену</h1>
+    <p>Развёрнутые ответы на 53 теоретических вопросов и 5 разобранных практических задач по линейной алгебре. К каждому пункту — подробное объяснение и блок «Простыми словами».</p>
+  </section>
+
+  <div class="section-divider"><h2>Часть I. Теория</h2><p>53 экзаменационных вопросов</p></div>
+  <nav class="qa-toc"><ol><li><a href="#q1">1. Определение векторного пространства. Примеры векторных пространств</a></li><li><a href="#q2">2. Простейшие свойства векторных пространств</a></li><li><a href="#q3">3. Линейные комбинации системы векторов. Линейная зависимость и линейная независимость. Примеры</a></li><li><a href="#q4">4. Критерии и свойства линейной зависимости</a></li><li><a href="#q5">5. Подпространство. Примеры. Линейная оболочка системы векторов</a></li><li><a href="#q6">6. Эквивалентные системы векторов, их свойства</a></li><li><a href="#q7">7. Элементарные преобразования системы векторов</a></li><li><a href="#q8">8. Лемма (теорема) Штейница</a></li><li><a href="#q9">9. Система образующих векторного пространства. Базис векторного пространства. Примеры</a></li><li><a href="#q10">10. Размерность векторного пространства, подпространства</a></li><li><a href="#q11">11. Свойства n-мерных векторных пространств</a></li><li><a href="#q12">12. Координаты вектора</a></li><li><a href="#q13">13. Матрица перехода от одного базиса к другому, преобразование координат</a></li><li><a href="#q14">14. Изоморфизмы векторных пространств</a></li><li><a href="#q15">15. Свойства изоморфизма векторных пространств</a></li><li><a href="#q16">16. Критерий изоморфизма векторных пространств</a></li><li><a href="#q17">17. Базис и ранг системы векторов</a></li><li><a href="#q18">18. Наличие ненулевого минора в линейно независимых строках матрицы. Линейная независимость строк, проходящих через ненулевой минор</a></li><li><a href="#q19">19. Ранг матрицы. Теорема о ранге матрицы</a></li><li><a href="#q20">20. Методы вычисления ранга матрицы</a></li><li><a href="#q21">21. Ранг суммы и произведения матриц</a></li><li><a href="#q22">22. Критерий совместности системы линейных уравнений</a></li><li><a href="#q23">23. Однородные и неоднородные системы линейных уравнений. Метод Гаусса решения систем линейных уравнений</a></li><li><a href="#q24">24. Однородные системы, условие существования нетривиального решения. Фундаментальная система решений</a></li><li><a href="#q25">25. Связь решений однородной и неоднородной систем</a></li><li><a href="#q26">26. Задание подпространства векторного пространства системой линейных уравнений</a></li><li><a href="#q27">27. Операции над подпространствами</a></li><li><a href="#q28">28. Размерности суммы и пересечения подпространств</a></li><li><a href="#q29">29. Прямая сумма подпространств. Критерии</a></li><li><a href="#q30">30. Прямое дополнение</a></li><li><a href="#q31">31. Линейные отображения векторных пространств. Примеры</a></li><li><a href="#q32">32. Простейшие свойства линейных отображений</a></li><li><a href="#q33">33. Образ и прообраз подпространства</a></li><li><a href="#q34">34. Теорема о продолжении отображения базиса</a></li><li><a href="#q35">35. Действия над линейными отображениями</a></li><li><a href="#q36">36. Матрица линейного оператора</a></li><li><a href="#q37">37. Изменение матрицы линейного оператора при переходе к новому базису</a></li><li><a href="#q38">38. Матрица суммы и композиции линейных операторов</a></li><li><a href="#q39">39. Ядро и образ линейного отображения. Ранг и дефект</a></li><li><a href="#q40">40. Нахождение ядра линейного оператора</a></li><li><a href="#q41">41. Теорема о ранге и дефекте линейного оператора</a></li><li><a href="#q42">42. Пространство линейных операторов и его связь с пространством матриц</a></li><li><a href="#q43">43. Автоморфизмы векторных пространств</a></li><li><a href="#q44">44. Условия обратимости линейного оператора</a></li><li><a href="#q45">45. Инвариантные подпространства, матрица линейного оператора при наличии инвариантного подпространства</a></li><li><a href="#q46">46. Сумма и пересечение инвариантных подпространств</a></li><li><a href="#q47">47. Собственное значение и собственный вектор оператора</a></li><li><a href="#q48">48. Линейная независимость собственных векторов, принадлежащих попарно различным собственным значениям</a></li><li><a href="#q49">49. Подпространство Vλ</a></li><li><a href="#q50">50. Нахождение собственных векторов и собственных значений</a></li><li><a href="#q51">51. Теорема Гамильтона – Кэли. Характеристический многочлен оператора и матрицы</a></li><li><a href="#q52">52. Минимальный многочлен оператора и матрицы</a></li><li><a href="#q53">53. Определение и вычисление жордановой нормальной формы и канонического базиса</a></li></ol></nav>
+  <section class="qa-section" id="q1">
+  <span class="qa-badge">1</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Определение векторного пространства. Примеры векторных пространств</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Множество <code>V</code> над полем <code>K</code> называется <strong>векторным (линейным) пространством</strong>, если на нём заданы две операции — сложение <code>+ : V×V → V</code> и умножение на скаляр <code>· : K×V → V</code> — удовлетворяющие 8 аксиомам.</p>
+<p><strong>Аксиомы сложения</strong> («V — абелева группа»):</p>
+<ol>
+<li>коммутативность: <code>u + v = v + u</code>;</li>
+<li>ассоциативность: <code>(u + v) + w = u + (v + w)</code>;</li>
+<li>существование нуля <code>0</code>: <code>v + 0 = v</code>;</li>
+<li>существование противоположного <code>−v</code>: <code>v + (−v) = 0</code>.</li>
+</ol>
+<p><strong>Аксиомы умножения на скаляр:</strong></p>
+<ol start="5">
+<li><code>1·v = v</code>;</li>
+<li><code>α(βv) = (αβ)v</code>;</li>
+<li><code>(α + β)v = αv + βv</code> (дистрибутивность по скалярам);</li>
+<li><code>α(u + v) = αu + αv</code> (дистрибутивность по векторам).</li>
+</ol>
+<p><strong>Примеры векторных пространств:</strong></p>
+<ul>
+<li><code>Kⁿ</code> — столбцы (или строки) из <code>n</code> чисел; в частности <code>ℝ²</code>, <code>ℝ³</code> — плоскость и пространство «стрелок»;</li>
+<li><code>M_{m×n}(K)</code> — матрицы фиксированного размера;</li>
+<li><code>K[x]</code> — многочлены; <code>K[x]_{≤n}</code> — многочлены степени ≤ n;</li>
+<li><code>C[a,b]</code> — непрерывные функции на отрезке;</li>
+<li>любое поле <code>K</code> над самим собой; нулевое пространство <code>{0}</code>.</li>
+</ul></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Векторное пространство — это «мир стрелок», где можно делать две вещи: складывать стрелки и растягивать/сжимать их в любое число раз. 8 аксиом — это просто «правила честной игры»: порядок сложения не важен, есть ноль, есть обратный и т.д. Примеры: обычные координаты на плоскости, матрицы, многочлены, функции — всё это можно складывать и умножать на число.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q2">
+  <span class="qa-badge">2</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Простейшие свойства векторных пространств</h2>
+  <div class="qa-answer"><p>Из аксиом выводятся базовые свойства (и важно уметь их доказывать):</p>
+<ol>
+<li><strong>Единственность нуля.</strong> Если <code>0₁</code> и <code>0₂</code> — нули, то <code>0₁ = 0₁ + 0₂ = 0₂</code>.</li>
+<li><strong>Единственность противоположного.</strong> Оно определено однозначно.</li>
+<li><strong><code>0·v = 0</code></strong> (скалярный ноль даёт нулевой вектор): из <code>0·v = (0+0)v = 0·v + 0·v</code>.</li>
+<li><strong><code>α·0 = 0</code></strong> для любого скаляра <code>α</code>.</li>
+<li><strong><code>(−1)·v = −v</code></strong>: из <code>v + (−1)v = (1 + (−1))v = 0·v = 0</code>.</li>
+<li><strong>Закон отсутствия делителей нуля:</strong> если <code>α·v = 0</code>, то <code>α = 0</code> или <code>v = 0</code>.</li>
+<li>Корректность вычитания: <code>u − v := u + (−v)</code>, уравнение <code>x + v = u</code> имеет единственное решение.</li>
+</ol></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Это «очевидные» факты, которые на самом деле нужно вывести из правил: ноль только один, у каждого вектора ровно один «минус», умножение на 0 даёт ноль, а умножение на −1 «разворачивает» стрелку. Главное: если произведение числа на вектор равно нулю — значит, либо число ноль, либо вектор нулевой.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q3">
+  <span class="qa-badge">3</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Линейные комбинации системы векторов. Линейная зависимость и линейная независимость. Примеры</h2>
+  <div class="qa-answer"><p><strong>Линейная комбинация</strong> векторов <code>v₁,…,v_k</code> — это выражение <code>α₁v₁ + … + α_k v_k</code> со скалярами <code>α_i ∈ K</code>. Комбинация называется <em>тривиальной</em>, если все <code>α_i = 0</code>.</p>
+<p><strong>Линейная зависимость.</strong> Система <em>линейно зависима</em>, если существует нетривиальная комбинация, равная нулю: <code>α₁v₁ + … + α_k v_k = 0</code> при не всех нулевых <code>α_i</code>.</p>
+<p><strong>Линейная независимость.</strong> Система <em>линейно независима</em>, если равенство <code>α₁v₁ + … + α_k v_k = 0</code> возможно только при <code>α₁ = … = α_k = 0</code>.</p>
+<p><strong>Примеры.</strong></p>
+<ul>
+<li><code>e₁=(1,0), e₂=(0,1)</code> в <code>ℝ²</code> — линейно независимы.</li>
+<li><code>(1,2)</code> и <code>(2,4)</code> — линейно зависимы (второй = 2×первый).</li>
+<li>Любая система, содержащая нулевой вектор или два одинаковых вектора — линейно зависима.</li>
+<li><code>1, x, x²</code> в <code>K[x]</code> — линейно независимы.</li>
+</ul></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Линейная комбинация — это «смесь» векторов с коэффициентами. Зависимость означает «один лишний»: какой-то вектор можно собрать из остальных. Независимость — «никто не лишний»: ноль можно собрать только взяв все коэффициенты нулём. Проверка простая: «можно ли один вектор выразить через другие?»</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q4">
+  <span class="qa-badge">4</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Критерии и свойства линейной зависимости</h2>
+  <div class="qa-answer"><p><strong>Критерий (главный).</strong> Система из <code>k ≥ 2</code> векторов линейно зависима <code>⇔</code> хотя бы один из векторов линейно выражается через остальные.</p>
+<p><strong>Свойства:</strong></p>
+<ol>
+<li>Система с нулевым вектором всегда линейно зависима.</li>
+<li>Один вектор <code>v</code> линейно зависим <code>⇔ v = 0</code>.</li>
+<li>Если подсистема линейно зависима, то и вся система линейно зависима.</li>
+<li>Любая подсистема линейно независимой системы линейно независима.</li>
+<li>Если система линейно независима, а после добавления вектора <code>u</code> стала зависимой, то <code>u</code> единственным образом выражается через остальные.</li>
+</ol>
+<p><strong>Матричный критерий.</strong> В <code>Kⁿ</code> система из <code>n</code> векторов линейно независима <code>⇔ det ≠ 0</code>; в общем случае — ранг матрицы из векторов равен их числу.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Главный признак зависимости: кто-то из векторов «повторяет» других — его можно собрать из остальных. Полезные правила: если есть ноль — сразу зависимы; если кусок системы зависим — вся зависима; если векторов больше, чем размерность, — точно зависимы. Для чисел удобно считать определитель или ранг.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q5">
+  <span class="qa-badge">5</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Подпространство. Примеры. Линейная оболочка системы векторов</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Непустое подмножество <code>U ⊆ V</code> — <strong>подпространство</strong>, если оно замкнуто относительно сложения и умножения на скаляр.</p>
+<p><strong>Критерий подпространства.</strong> <code>U</code> — подпространство <code>⇔</code> <code>U ≠ ∅</code> и для любых <code>u,w ∈ U</code>, <code>α,β ∈ K</code> вектор <code>αu + βw ∈ U</code>. В частности <code>0 ∈ U</code>.</p>
+<p><strong>Примеры:</strong></p>
+<ul>
+<li><code>{0}</code> и само <code>V</code> — тривиальные подпространства;</li>
+<li>прямые и плоскости через 0 в <code>ℝ³</code>;</li>
+<li>решения однородной СЛУ <code>Ax = 0</code>;</li>
+<li>многочлены степени ≤ n внутри <code>K[x]</code>.</li>
+</ul>
+<p><strong>Линейная оболочка.</strong> <code>⟨v₁,…,v_k⟩</code> = множество всех линейных комбинаций этих векторов. Это <em>наименьшее</em> подпространство, содержащее все <code>v_i</code>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Подпространство — это «мир внутри мира»: меньшее пространство, в котором по-прежнему можно складывать и умножать, не выпадая наружу. Главная проверка: «не вылетаем ли мы наружу, складывая или растягивая?». Обязательно содержит ноль. Оболочка — это «всё, что можно собрать» из данных векторов.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q6">
+  <span class="qa-badge">6</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Эквивалентные системы векторов, их свойства</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Две системы векторов <strong>эквивалентны</strong>, если каждый вектор одной линейно выражается через другую и наоборот. Эквивалентность <code>⇔</code> обе порождают одну и ту же линейную оболочку.</p>
+<p><strong>Свойства:</strong></p>
+<ol>
+<li>Это <em>отношение эквивалентности</em>: рефлексивно, симметрично, транзитивно.</li>
+<li>Эквивалентные системы имеют одинаковый <strong>ранг</strong> (максимальное число линейно независимых векторов).</li>
+<li>Любые две базы (максимальные линейно независимые подсистемы) эквивалентных систем равномощны.</li>
+</ol></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Две системы эквивалентны, если «описывают одно и то же облако» — из одной можно собрать другую и обратно. Набор векторов может быть разным, но порождённое пространство и его размер (ранг) — одинаковые.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q7">
+  <span class="qa-badge">7</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Элементарные преобразования системы векторов</h2>
+  <div class="qa-answer"><p><strong>Элементарные преобразования</strong> системы векторов:</p>
+<ol>
+<li>перестановка двух векторов;</li>
+<li>умножение вектора на ненулевой скаляр <code>α ≠ 0</code>;</li>
+<li>прибавление к одному вектору другого, умноженного на скаляр.</li>
+</ol>
+<p>(Иногда добавляют вычёркивание нулевого вектора.)</p>
+<p><strong>Главное свойство.</strong> Элементарные преобразования <em>не меняют</em> линейную оболочку системы (получается эквивалентная система), а значит и ранг. Каждое обратимо.</p>
+<p><strong>Применение.</strong> Приводя систему к ступенчатому виду, находят ранг, базис оболочки и выражения зависимых векторов.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Это «разрешённые ходы», которыми можно перемешивать векторы, не меняя само облако, которое они порождают: переставить, растянуть, добавить один к другому. Именно ими работает метод Гаусса.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q8">
+  <span class="qa-badge">8</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Лемма (теорема) Штейница</h2>
+  <div class="qa-answer"><p><strong>Теорема Штейница (о замене).</strong> Пусть система <code>a₁,…,a_k</code> линейно независима и каждый <code>a_i</code> линейно выражается через систему <code>b₁,…,b_m</code>. Тогда <code>k ≤ m</code>, и можно заменить <code>k</code> подходящих векторов <code>b</code> на векторы <code>a</code> так, что полученная система по-прежнему порождает ту же оболочку.</p>
+<p><strong>Следствия:</strong></p>
+<ol>
+<li>В линейно независимой системе не может быть больше векторов, чем в любой порождающей системе.</li>
+<li><strong>Все базисы пространства равномощны</strong> — отсюда корректность понятия размерности.</li>
+</ol>
+<p>Это <strong>ключевая теорема</strong>: именно она позволяет корректно говорить о размерности пространства.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Смысл: линейно независимых векторов не может быть больше, чем образующих («нельзя впихнуть больше независимых направлений, чем есть »строительных блоков«). Именно поэтому у всех базисов одинаковое число векторов — это и есть размерность.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q9">
+  <span class="qa-badge">9</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Система образующих векторного пространства. Базис векторного пространства. Примеры</h2>
+  <div class="qa-answer"><p><strong>Система образующих (порождающая).</strong> Система <code>v₁,…,v_k</code> порождает <code>V</code>, если <code>⟨v₁,…,v_k⟩ = V</code>, то есть любой вектор есть их линейная комбинация.</p>
+<p><strong>Базис.</strong> Базис — это <em>линейно независимая система образующих</em>. Эквивалентные определения: это максимальная линейно независимая система, либо минимальная порождающая.</p>
+<p><strong>Основное свойство.</strong> <code>e₁,…,e_n</code> — базис <code>⇔</code> каждый вектор <em>единственным</em> образом разлагается: <code>v = α₁e₁ + … + α_n e_n</code>.</p>
+<p><strong>Примеры:</strong></p>
+<ul>
+<li>стандартный базис <code>e₁,…,e_n</code> в <code>Kⁿ</code>;</li>
+<li><code>1, x, x², …, xⁿ</code> в <code>K[x]_{≤n}</code>;</li>
+<li>матричные единицы <code>E_{ij}</code> в <code>M_{m×n}(K)</code>.</li>
+</ul></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Образующие — это «строительный набор», из которого можно собрать всё пространство (но может быть с лишними деталями). Базис — это «идеальный набор»: ровно столько деталей, сколько нужно, ничего лишнего. В нём каждый вектор собирается ровно одним способом — это и есть координаты.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q10">
+  <span class="qa-badge">10</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Размерность векторного пространства, подпространства</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> <strong>Размерность</strong> <code>dim V</code> — это число векторов в любом базисе (оно корректно по теореме Штейница — все базисы равномощны).</p>
+<p><strong>Примеры:</strong> <code>dim Kⁿ = n</code>; <code>dim K[x]_{≤n} = n+1</code>; <code>dim M_{m×n} = mn</code>; <code>dim {0} = 0</code>. Если базис бесконечен — пространство <em>бесконечномерно</em> (например, <code>K[x]</code>).</p>
+<p><strong>Размерность подпространства.</strong> Если <code>U ⊆ V</code> и <code>dim V = n</code>, то <code>dim U ≤ n</code>, причём <code>dim U = n ⇔ U = V</code>. Любой базис подпространства можно дополнить до базиса всего пространства (теорема о дополнении).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Размерность — это «число степеней свободы»: сколько независимых направлений есть в пространстве. У плоскости — 2, у обычного пространства — 3. У подпространства степеней свободы не больше, чем у всего пространства; и если их ровно столько же — это уже всё пространство.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q11">
+  <span class="qa-badge">11</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Свойства n-мерных векторных пространств</h2>
+  <div class="qa-answer"><p>Пусть <code>dim V = n</code>. Тогда:</p>
+<ol>
+<li>Любые <code>n+1</code> и более векторов линейно зависимы.</li>
+<li>Любая линейно независимая система из <code>n</code> векторов — базис.</li>
+<li>Любая порождающая система из <code>n</code> векторов — базис.</li>
+<li>Любую линейно независимую систему можно <em>дополнить</em> до базиса.</li>
+<li>Из любой порождающей системы можно <em>выделить</em> базис.</li>
+<li>Каждое подпространство конечномерно и <code>dim U ≤ n</code>.</li>
+</ol>
+<p>Эти свойства — прямые следствия теоремы Штейница.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Если размерность равна n, то ровно n «правильных» векторов хватает, чтобы быть базисом, а больше n векторов всегда «лишние». Нехватающие можно добавить, лишние — убрать.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q12">
+  <span class="qa-badge">12</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Координаты вектора</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Если <code>e₁,…,e_n</code> — базис, то каждый вектор единственным образом записывается <code>v = x₁e₁ + … + x_n e_n</code>. Числа <code>(x₁,…,x_n)</code> — <strong>координаты</strong> вектора в данном базисе.</p>
+<p><strong>Свойства.</strong> При сложении векторов координаты складываются, при умножении на скаляр — умножаются. Именно поэтому соответствие <code>v ↦ (x₁,…,x_n)</code> задаёт <em>изоморфизм</em> <code>V ≅ Kⁿ</code>.</p>
+<p>Координаты зависят от выбора базиса; при смене базиса они пересчитываются через матрицу перехода (вопрос 13).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Координаты — это «рецепт» вектора: сколько какого базисного вектора взять. Рецепт всегда единственный. Благодаря этому любое n-мерное пространство можно «перевести» в обычные столбцы чисел. Поменяешь базис — поменяются и координаты.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q13">
+  <span class="qa-badge">13</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Матрица перехода от одного базиса к другому, преобразование координат</h2>
+  <div class="qa-answer"><p><strong>Матрица перехода.</strong> Пусть <code>e = (e₁,…,e_n)</code> и <code>e' = (e'₁,…,e'_n)</code> — два базиса. Матрица перехода <code>T</code> состоит из столбцов — координат новых базисных векторов <code>e'_j</code> в старом базисе: <code>e'_j = ∑_i T_{ij} e_i</code>, то есть <code>e' = e·T</code>.</p>
+<p><strong>Свойства.</strong> <code>T</code> обратима (<code>det T ≠ 0</code>), т.к. столбцы — координаты базиса.</p>
+<p><strong>Преобразование координат.</strong> Если <code>x</code> — столбец координат в старом базисе, <code>x'</code> — в новом, то <code>x = T x'</code>, откуда <code>x' = T⁻¹ x</code>. Обратите внимание: базисы и координаты преобразуются <em>«встречно»</em> (одни через <code>T</code>, другие через <code>T⁻¹</code>).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Матрица перехода — это «словарь-переводчик» между двумя базисами: в её столбцах написано, как новые базисные векторы выражаются через старые. Чтобы пересчитать координаты, умножают на эту матрицу (или на обратную).</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q14">
+  <span class="qa-badge">14</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Изоморфизмы векторных пространств</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Отображение <code>f : V → W</code> — <strong>изоморфизм</strong>, если оно <em>линейно</em> (<code>f(αu+βv)=αf(u)+βf(v)</code>) и <em>биективно</em>. Пространства <code>V</code> и <code>W</code> называются изоморфными (<code>V ≅ W</code>).</p>
+<p><strong>Пример.</strong> Выбор базиса даёт изоморфизм <code>V ≅ Kⁿ</code> (вектор ↦ столбец координат). Например, <code>K[x]_{≤n} ≅ K^{n+1}</code>.</p>
+<p><strong>Обратное.</strong> Обратное отображение <code>f⁻¹</code> тоже линейно, так что это симметричное отношение.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Изоморфизм — это «идеальный переводчик» между двумя пространствами: он сохраняет сложение и растяжение и переводит одно в другое без потерь. Если два пространства изоморфны, они «устроены одинаково», хотя элементы могут выглядеть по-разному.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q15">
+  <span class="qa-badge">15</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Свойства изоморфизма векторных пространств</h2>
+  <div class="qa-answer"><p>Пусть <code>f : V → W</code> — изоморфизм. Тогда:</p>
+<ol>
+<li><code>f(0) = 0</code>, <code>f(−v) = −f(v)</code>.</li>
+<li>Образ линейно независимой системы линейно независим, образ зависимой — зависим.</li>
+<li>Образ базиса — базис; поэтому <code>dim V = dim W</code>.</li>
+<li>Образ подпространства — подпространство той же размерности.</li>
+<li>Композиция изоморфизмов и обратное отображение — снова изоморфизмы.</li>
+</ol>
+<p>Отношение изоморфности рефлексивно, симметрично и транзитивно.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Изоморфизм не портит «структуру»: независимые остаются независимыми, базис переходит в базис, размерность сохраняется. Поэтому «перевод» идёт в обе стороны и ничего не теряется.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q16">
+  <span class="qa-badge">16</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Критерий изоморфизма векторных пространств</h2>
+  <div class="qa-answer"><p><strong>Критерий.</strong> Два конечномерных пространства над одним полем изоморфны <code>⇔</code> их размерности равны: <code>V ≅ W ⇔ dim V = dim W</code>.</p>
+<p><strong>Доказательство (идея).</strong> Необходимость — из свойства «образ базиса есть базис». Достаточность: если <code>dim V = dim W = n</code>, выберем базисы <code>e_i</code> в <code>V</code> и <code>f_i</code> в <code>W</code> и положим <code>e_i ↦ f_i</code>; распространив по линейности, получим изоморфизм.</p>
+<p><strong>Следствие.</strong> Любое n-мерное пространство над <code>K</code> изоморфно <code>Kⁿ</code> — «эталонной модели».</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Главный вывод: размерность полностью определяет пространство с точностью до изоморфизма. Два пространства одной размерности — это «одно и то же по сути». Поэтому все n-мерные пространства можно изучать на примере обычных столбцов Kⁿ.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q17">
+  <span class="qa-badge">17</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Базис и ранг системы векторов</h2>
+  <div class="qa-answer"><p><strong>Базис системы векторов</strong> — это максимальная линейно независимая подсистема. <strong>Ранг системы</strong> — число векторов в таком базисе, т.е. <code>rk = dim⟨v₁,…,v_k⟩</code>.</p>
+<p><strong>Свойства:</strong></p>
+<ol>
+<li>Все базисы системы содержат одинаковое число векторов (по Штейницу).</li>
+<li>Ранг не меняется при элементарных преобразованиях и у эквивалентных систем одинаков.</li>
+<li>Остальные векторы линейно выражаются через базисные.</li>
+</ol>
+<p><strong>Нахождение.</strong> Записывают векторы строками матрицы и приводят к ступенчатому виду: ненулевые строки дают базис, их число — ранг.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Ранг — это «сколько по-настоящему разных направлений» в наборе векторов, а базис — сам такой минимальный набор. Остальные векторы — повторы, собираемые из базисных. На практике считается методом Гаусса.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q18">
+  <span class="qa-badge">18</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Наличие ненулевого минора в линейно независимых строках матрицы. Линейная независимость строк, проходящих через ненулевой минор</h2>
+  <div class="qa-answer"><p><strong>Минор</strong> порядка <code>r</code> — определитель подматрицы на пересечении <code>r</code> строк и <code>r</code> столбцов.</p>
+<p><strong>Утверждение 1.</strong> Если строки матрицы линейно независимы, то среди них есть ненулевой минор максимального порядка (порядка, равного числу строк).</p>
+<p><strong>Утверждение 2 (обратное).</strong> Если некоторый минор порядка <code>r</code> отличен от нуля, то <code>r</code> строк, проходящих через этот минор, линейно независимы (и тоже самое для столбцов).</p>
+<p>Эти два факта — основа <strong>теоремы о ранге</strong> (вопрос 19): ранг матрицы равен порядку наибольшего ненулевого минора.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Минор — это определитель «вырезанного квадратика» из матрицы. Если он не ноль, то строки (и столбцы), через которые он проходит, точно независимы. Поэтому «самый большой ненулевой квадратик» и показывает ранг.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q19">
+  <span class="qa-badge">19</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Ранг матрицы. Теорема о ранге матрицы</h2>
+  <div class="qa-answer"><p>Для матрицы определяют три величины:</p>
+<ul>
+<li><strong>строчный ранг</strong> — размерность оболочки строк;</li>
+<li><strong>столбцовый ранг</strong> — размерность оболочки столбцов;</li>
+<li><strong>минорный ранг</strong> — порядок наибольшего ненулевого минора.</li>
+</ul>
+<p><strong>Теорема о ранге.</strong> Все три ранга равны между собой. Это общее число и называется <strong>рангом матрицы</strong> <code>rk A</code>.</p>
+<p><strong>Следствия:</strong> <code>rk A = rk Aᵀ</code>; <code>rk A ≤ min(m, n)</code>; ранг не меняется при элементарных преобразованиях строк и столбцов.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Главная мысль: сколько независимых строк, столько же и независимых столбцов — и это же число равно размеру самого большого ненулевого минора. Это и есть ранг — одно число, характеризующее матрицу.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q20">
+  <span class="qa-badge">20</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Методы вычисления ранга матрицы</h2>
+  <div class="qa-answer"><p><strong>1. Метод элементарных преобразований (Гаусс).</strong> Приводят матрицу к ступенчатому виду; число ненулевых строк (ведущих элементов) равно рангу. Это самый эффективный способ.</p>
+<p><strong>2. Метод окаймляющих миноров.</strong> Ищут ненулевой минор, затем «окаймляют» его: если все окаймляющие миноры порядка <code>r+1</code> равны нулю, то <code>rk = r</code>.</p>
+<p><strong>3. По определению</strong> — порядок наибольшего ненулевого минора (громоздко для больших матриц).</p>
+<p>На практике почти всегда используют метод Гаусса.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Ранг удобнее всего считать методом Гаусса: ступеньками обнуляем низ, и сколько ненулевых строк осталось — таков и ранг. Можно и через миноры, но это дольше.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q21">
+  <span class="qa-badge">21</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Ранг суммы и произведения матриц</h2>
+  <div class="qa-answer"><p><strong>Ранг суммы:</strong> <code>rk(A + B) ≤ rk A + rk B</code>.</p>
+<p><strong>Ранг произведения:</strong> <code>rk(AB) ≤ min(rk A, rk B)</code>.</p>
+<p><strong>Неравенство Сильвестра:</strong> если <code>A</code> размера <code>m×n</code>, <code>B</code> размера <code>n×p</code>, то <code>rk A + rk B − n ≤ rk(AB)</code>.</p>
+<p><strong>Инвариантность.</strong> Умножение на <em>обратимую</em> матрицу не меняет ранг: <code>rk(PA) = rk(AQ) = rk A</code> при обратимых <code>P, Q</code>. Это потому, что умножение на обратимую матрицу равносильно элементарным преобразованиям.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Интуиция: «ранг — это богатство направлений». При сложении направления не могут «родиться из ничего» — поэтому ранг суммы не больше суммы рангов. При умножении ранг не может вырасти выше, чем у множителей. А умножение на обратимую (невырожденную) вообще ранг не меняет.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q22">
+  <span class="qa-badge">22</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Критерий совместности системы линейных уравнений</h2>
+  <div class="qa-answer"><p><strong>Теорема Кронекера – Капелли.</strong> СЛУ <code>Ax = b</code> совместна (имеет решение) <code>⇔</code> ранг основной матрицы равен рангу расширенной: <code>rk A = rk(A | b)</code>.</p>
+<p><strong>Количество решений.</strong> Пусть <code>r = rk A = rk(A|b)</code>, <code>n</code> — число неизвестных:</p>
+<ul>
+<li><code>r = n</code> — единственное решение;</li>
+<li><code>r &lt; n</code> — бесконечно много решений с <code>n − r</code> свободными параметрами;</li>
+<li><code>rk A &lt; rk(A|b)</code> — решений нет (несовместна).</li>
+</ul>
+<p><strong>Смысл.</strong> Система совместна тогда и только тогда, когда столбец <code>b</code> линейно выражается через столбцы <code>A</code>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Система имеет решение только если правая часть b «собирается» из столбцов матрицы. Проверяют это сравнением двух рангов: без b и с b. Равны — решение есть; ранг вырос — решений нет.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q23">
+  <span class="qa-badge">23</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Однородные и неоднородные системы линейных уравнений. Метод Гаусса решения систем линейных уравнений</h2>
+  <div class="qa-answer"><p><strong>Однородная СЛУ:</strong> <code>Ax = 0</code> (правая часть нулевая). Всегда совместна (есть нулевое решение).</p>
+<p><strong>Неоднородная СЛУ:</strong> <code>Ax = b</code>, <code>b ≠ 0</code>.</p>
+<p><strong>Метод Гаусса.</strong> Расширенную матрицу <code>(A | b)</code> элементарными преобразованиями строк приводят к ступенчатому виду (прямой ход), затем обратным ходом выражают базисные неизвестные через свободные.</p>
+<p><strong>Этапы:</strong> определить ранги (совместность), выбрать базисные/свободные переменные, выписать общее решение. Преимущество — работает всегда и полиномиально быстро.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Однородная — это система «= 0», у неё всегда есть хотя бы нулевое решение. Неоднородная — с ненулевой правой частью. Метод Гаусса — это аккуратное «выражаем одни переменные через другие» ступеньками, пока система не станет прозрачной.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q24">
+  <span class="qa-badge">24</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Однородные системы, условие существования нетривиального решения. Фундаментальная система решений</h2>
+  <div class="qa-answer"><p><strong>Множество решений.</strong> Множество решений однородной СЛУ <code>Ax = 0</code> с <code>n</code> неизвестными — это подпространство в <code>Kⁿ</code> размерности <code>n − rk A</code> (дефект).</p>
+<p><strong>Условие нетривиального решения.</strong> Нетривиальное решение существует <code>⇔ rk A &lt; n</code>. Для квадратной матрицы это <code>⇔ det A = 0</code>. В частности, если уравнений меньше, чем неизвестных, нетривиальное решение есть всегда.</p>
+<p><strong>ФСР.</strong> Фундаментальная система решений — это <em>базис</em> пространства решений (<code>n − r</code> линейно независимых решений). Общее решение — любая их линейная комбинация.</p>
+<p><strong>Нахождение ФСР:</strong> приводят к ступенчатому виду, придают свободным переменным поочерёдно значения из единичной матрицы.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Если независимых уравнений меньше, чем неизвестных, то появляются «свободные» переменные и решений бесконечно много. ФСР — это «набор кирпичиков», из которых складываются все решения. Их ровно «число неизвестных минус ранг».</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q25">
+  <span class="qa-badge">25</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Связь решений однородной и неоднородной систем</h2>
+  <div class="qa-answer"><p><strong>Теорема о структуре решения.</strong> Общее решение неоднородной СЛУ <code>Ax = b</code> имеет вид <code>x = x₀ + x_одн</code>, где <code>x₀</code> — любое (частное) решение неоднородной системы, а <code>x_одн</code> — общее решение соответствующей однородной <code>Ax = 0</code>.</p>
+<p><strong>Геометрически:</strong> множество решений неоднородной системы — это <em>сдвинутое</em> (аффинное) подпространство: подпространство решений однородной, сдвинутое на вектор <code>x₀</code>.</p>
+<p><strong>Следствие.</strong> Разность двух решений неоднородной системы — всегда решение однородной.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Решения неоднородной системы = одно любое решение + все решения «нулевой» системы. Представь облако решений однородной системы, целиком сдвинутое на один найденный ответ. Поэтому достаточно найти одно решение и всю ФСР.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q26">
+  <span class="qa-badge">26</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Задание подпространства векторного пространства системой линейных уравнений</h2>
+  <div class="qa-answer"><p>Подпространство можно задавать двумя способами:</p>
+<ul>
+<li><strong>Параметрически</strong> — как линейную оболочку <code>⟨a₁,…,a_k⟩</code> («изнутри»).</li>
+<li><strong>Неявно</strong> — как множество решений однородной системы <code>Ax = 0</code> («извне», ограничениями).</li>
+</ul>
+<p><strong>Связь.</strong> Подпространство <code>U</code> размерности <code>d</code> в <code>Kⁿ</code> задаётся <code>n − d</code> независимыми линейными уравнениями.</p>
+<p><strong>Переход от оболочки к уравнениям.</strong> Записывают векторы <code>a_i</code> строками, ищут <em>левое ядро</em> (решения <code>yᵀ a_i = 0</code> для всех i): эти <code>y</code> и дают коэффициенты искомых уравнений (см. практику, задача П2).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Подпространство можно описать двумя способами: либо «из каких векторов оно собирается» (оболочка), либо «каким уравнениям оно удовлетворяет» (ограничения). Переход между ними — это решение системы: число уравнений = размерность пространства минус размерность подпространства.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q27">
+  <span class="qa-badge">27</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Операции над подпространствами</h2>
+  <div class="qa-answer"><p>Пусть <code>U, W ⊆ V</code> — подпространства.</p>
+<ul>
+<li><strong>Пересечение</strong> <code>U ∩ W</code> — всегда подпространство (векторы, лежащие и в <code>U</code>, и в <code>W</code>).</li>
+<li><strong>Сумма</strong> <code>U + W = {u + w : u ∈ U, w ∈ W}</code> — наименьшее подпространство, содержащее и <code>U</code>, и <code>W</code>.</li>
+</ul>
+<p><strong>Важное замечание.</strong> Объединение <code>U ∪ W</code>, вообще говоря, <em>не</em> подпространство (сумма двух векторов из разных может выпасть). Именно поэтому вводят сумму <code>U + W</code> — «оболочку объединения».</p>
+<p>Эти операции связаны формулой Грассмана (вопрос 28).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Два подпространства можно «пересекать» (берём общее) и «складывать» (берём всё, что можно собрать из обоих). Просто «сложить множества» (объединить) нельзя — получится не подпространство.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q28">
+  <span class="qa-badge">28</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Размерности суммы и пересечения подпространств</h2>
+  <div class="qa-answer"><p><strong>Формула Грассмана:</strong></p>
+<p style="text-align:center"><code>dim(U + W) = dim U + dim W − dim(U ∩ W)</code></p>
+<p><strong>Идея доказательства.</strong> Берём базис <code>c₁,…,c_p</code> пересечения <code>U ∩ W</code>, дополняем его до базиса <code>U</code> (добавляя <code>a_i</code>) и отдельно до базиса <code>W</code> (добавляя <code>b_j</code>). Тогда <code>{c, a, b}</code> — базис <code>U + W</code>, откуда и следует формула.</p>
+<p><strong>Следствие.</strong> Если <code>U ∩ W = {0}</code>, то <code>dim(U + W) = dim U + dim W</code> — это прямая сумма (вопрос 29).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Это как формула включений-исключений для размерностей: складываем размеры двух подпространств, но вычитаем общую часть, чтобы не считать её дважды. Если общего нет (только ноль) — размеры просто складываются.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q29">
+  <span class="qa-badge">29</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Прямая сумма подпространств. Критерии</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Сумма <code>U + W</code> называется <strong>прямой</strong> (обозначается <code>U ⊕ W</code>), если каждый вектор суммы <em>единственным</em> образом представляется в виде <code>u + w</code>.</p>
+<p><strong>Критерии прямоты (равносильны):</strong></p>
+<ol>
+<li><code>U ∩ W = {0}</code>;</li>
+<li>представление нуля единственно: <code>0 = u + w ⇒ u = w = 0</code>;</li>
+<li><code>dim(U + W) = dim U + dim W</code>;</li>
+<li>объединение базисов <code>U</code> и <code>W</code> даёт базис суммы.</li>
+</ol>
+<p><strong>Обобщение.</strong> Для нескольких слагаемых <code>U₁ + … + U_k</code> прямая <code>⇔</code> каждое <code>U_i</code> пересекает сумму остальных только по нулю.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Прямая сумма — это когда два подпространства «не пересекаются лишним» (только в нуле), и поэтому каждый вектор разлагается на части ровно одним способом. Как разложить вектор на «x-часть» и «y-часть» — и только так.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q30">
+  <span class="qa-badge">30</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Прямое дополнение</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Подпространство <code>W</code> называется <strong>прямым дополнением</strong> к <code>U</code> в <code>V</code>, если <code>V = U ⊕ W</code>, то есть <code>U ∩ W = {0}</code> и <code>U + W = V</code>.</p>
+<p><strong>Теорема существования.</strong> Для любого подпространства <code>U</code> конечномерного <code>V</code> прямое дополнение существует (берём базис <code>U</code>, дополняем его до базиса <code>V</code>; оболочка добавленных векторов и есть <code>W</code>).</p>
+<p><strong>Важно:</strong> прямое дополнение <em>не единственно</em> (их обычно много), но все они имеют одну размерность <code>dim V − dim U</code>. Нахождение — см. практику.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Прямое дополнение — это «недостающая половинка»: подпространство, которое вместе с данным даёт всё пространство и не пересекается с ним. Таких «половинок» может быть много, но размер у них один и тот же.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q31">
+  <span class="qa-badge">31</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Линейные отображения векторных пространств. Примеры</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Отображение <code>f : V → W</code> называется <strong>линейным</strong>, если оно сохраняет операции:</p>
+<ul>
+<li><strong>аддитивность:</strong> <code>f(u + v) = f(u) + f(v)</code>;</li>
+<li><strong>однородность:</strong> <code>f(αv) = α f(v)</code>.</li>
+</ul>
+<p>Эквивалентно одним условием: <code>f(αu + βv) = αf(u) + βf(v)</code>. Линейное отображение из <code>V</code> в себя называют <strong>линейным оператором</strong>.</p>
+<p><strong>Примеры:</strong></p>
+<ul>
+<li>нулевое <code>f(v)=0</code> и тождественное <code>f(v)=v</code>;</li>
+<li>умножение на матрицу <code>x ↦ Ax</code> в <code>Kⁿ</code>;</li>
+<li>поворот, проекция, гомотетия <code>v ↦ λv</code>;</li>
+<li>дифференцирование <code>p ↦ p'</code> в <code>K[x]</code>.</li>
+</ul>
+<p><strong>Не линейны:</strong> <code>f(v)=v+v₀</code> (сдвиг, если <code>v₀≠0</code>), <code>f(x)=x²</code>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Линейное отображение — это «честное» преобразование: оно не ломает сложение и растяжение (сначала сложить, потом преобразовать — то же самое). Проверка на экзамене: подставь сумму и число-множитель и посмотри, выносятся ли они. Сдвиг и квадрат — не линейны.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q32">
+  <span class="qa-badge">32</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Простейшие свойства линейных отображений</h2>
+  <div class="qa-answer"><p>Пусть <code>f : V → W</code> линейно. Тогда:</p>
+<ol>
+<li><code>f(0) = 0</code> и <code>f(−v) = −f(v)</code>.</li>
+<li><code>f(α₁v₁ + … + α_k v_k) = α₁ f(v₁) + … + α_k f(v_k)</code> — образ линейной комбинации есть комбинация образов.</li>
+<li>Образ линейно зависимой системы линейно зависим (но образ независимой может стать зависимым — если есть ядро).</li>
+<li>Отображение полностью определяется своими значениями на базисе.</li>
+<li>Композиция линейных отображений линейна.</li>
+</ol>
+<p>Эти свойства показывают, что линейное отображение «живёт» согласованно со структурой пространства.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Главное: линейное отображение нуль переводит в нуль и сохраняет любые «смеси» векторов. Поэтому, чтобы задать всё отображение, достаточно сказать, куда идут базисные векторы — остальное восстановится само.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q33">
+  <span class="qa-badge">33</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Образ и прообраз подпространства</h2>
+  <div class="qa-answer"><p>Пусть <code>f : V → W</code> линейно.</p>
+<p><strong>Образ подпространства</strong> <code>U ⊆ V</code>: <code>f(U) = {f(u) : u ∈ U}</code>. Это подпространство в <code>W</code>, причём <code>dim f(U) ≤ dim U</code>.</p>
+<p><strong>Прообраз подпространства</strong> <code>S ⊆ W</code>: <code>f⁻¹(S) = {v ∈ V : f(v) ∈ S}</code>. Это подпространство в <code>V</code>, содержащее ядро <code>Ker f = f⁻¹({0})</code>.</p>
+<p><strong>Свойства:</strong> образ подпространства — подпространство; прообраз подпространства — подпространство; <code>dim f⁻¹(S) = dim(S ∩ Im f) + dim Ker f</code>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Образ — это «куда попадают» векторы из набора после преобразования. Прообраз — «откуда приходят» векторы, попадающие в заданное множество. Оба остаются подпространствами.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q34">
+  <span class="qa-badge">34</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Теорема о продолжении отображения базиса</h2>
+  <div class="qa-answer"><p><strong>Теорема.</strong> Пусть <code>e₁,…,e_n</code> — базис <code>V</code>, а <code>w₁,…,w_n</code> — <em>произвольные</em> векторы в <code>W</code>. Тогда существует и притом <em>единственное</em> линейное отображение <code>f : V → W</code> с <code>f(e_i) = w_i</code> для всех i.</p>
+<p><strong>Формула:</strong> <code>f(x₁e₁ + … + x_n e_n) = x₁ w₁ + … + x_n w_n</code>.</p>
+<p><strong>Следствия:</strong> линейное отображение однозначно задаётся значениями на базисе; именно это позволяет задавать оператор матрицей (вопрос 36).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Смысл: чтобы задать линейное отображение, достаточно «разложить по полочкам» базис — решить, куда отправится каждый базисный вектор. Причём отправить можно куда угодно, и такое отображение будет ровно одно.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q35">
+  <span class="qa-badge">35</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Действия над линейными отображениями</h2>
+  <div class="qa-answer"><p>На множестве линейных отображений <code>Hom(V, W)</code> вводят операции:</p>
+<ul>
+<li><strong>сумма:</strong> <code>(f + g)(v) = f(v) + g(v)</code>;</li>
+<li><strong>умножение на скаляр:</strong> <code>(αf)(v) = α·f(v)</code>;</li>
+<li><strong>композиция:</strong> <code>(g ∘ f)(v) = g(f(v))</code> для <code>f: V→W</code>, <code>g: W→U</code>.</li>
+</ul>
+<p><strong>Свойства.</strong> Относительно сложения и умножения на скаляр <code>Hom(V, W)</code> само является векторным пространством. Композиция ассоциативна и дистрибутивна относительно сложения, но в общем некоммутативна.</p>
+<p>Этим операциям соответствуют сложение и умножение матриц (вопрос 38).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Линейные отображения можно складывать, умножать на число и сцеплять друг за другом (композиция — это «сначала одно, потом другое»). Порядок в композиции важен. Всё это зеркалит действия с матрицами.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q36">
+  <span class="qa-badge">36</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Матрица линейного оператора</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Пусть <code>φ : V → V</code> — линейный оператор, <code>e₁,…,e_n</code> — базис. Разложим <code>φ(e_j) = ∑_i a_{ij} e_i</code>. Числа <code>a_{ij}</code> образуют <strong>матрицу оператора</strong> <code>A = [φ]_e</code>: в <em>j-м столбце</em> стоят координаты образа <code>φ(e_j)</code>.</p>
+<p><strong>Главное соотношение.</strong> Если <code>x</code> — столбец координат вектора, то координаты образа равны <code>Ax</code>. Таким образом, действие оператора в координатах — это умножение на матрицу.</p>
+<p><strong>Соответствие.</strong> Выбор базиса задаёт взаимно однозначное соответствие между операторами и матрицами <code>n×n</code>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Матрица оператора — это «инструкция» в выбранном базисе: в каждом столбце записано, во что превращается очередной базисный вектор. Тогда действие на любой вектор — это просто «умножить на матрицу».</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q37">
+  <span class="qa-badge">37</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Изменение матрицы линейного оператора при переходе к новому базису</h2>
+  <div class="qa-answer"><p><strong>Формула подобия.</strong> Пусть <code>A = [φ]_e</code> и <code>A' = [φ]_{e'}</code> — матрицы одного оператора в базисах <code>e</code> и <code>e'</code>, а <code>T</code> — матрица перехода от <code>e</code> к <code>e'</code>. Тогда:</p>
+<p style="text-align:center"><code>A' = T⁻¹ A T</code></p>
+<p><strong>Подобие.</strong> Две матрицы, связанные таким соотношением, называются <strong>подобными</strong>. Подобные матрицы описывают один и тот же оператор в разных базисах.</p>
+<p><strong>Инварианты.</strong> У подобных матриц совпадают определитель, след, ранг, характеристический и минимальный многочлены, собственные значения.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Один и тот же оператор в разных базисах выглядит разными матрицами, но они связаны формулой T⁻¹AT («перевёл координаты, применил, перевёл обратно»). Такие матрицы — подобные, и у них совпадают «паспортные» характеристики: определитель, след, собственные числа.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q38">
+  <span class="qa-badge">38</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Матрица суммы и композиции линейных операторов</h2>
+  <div class="qa-answer"><p>Пусть в фиксированном базисе операторы <code>φ, ψ</code> имеют матрицы <code>A, B</code>. Тогда:</p>
+<ul>
+<li><strong>сумма:</strong> <code>[φ + ψ] = A + B</code>;</li>
+<li><strong>умножение на скаляр:</strong> <code>[αφ] = αA</code>;</li>
+<li><strong>композиция:</strong> <code>[φ ∘ ψ] = A·B</code> (произведение матриц).</li>
+</ul>
+<p><strong>Следствие.</strong> Соответствие <code>φ ↦ [φ]</code> является изоморфизмом алгебр: оно сохраняет и линейную структуру, и умножение. Именно поэтому «некоммутативность композиции» отражает некоммутативность произведения матриц.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Сложению операторов соответствует сложение матриц, а «сначала один, потом другой» (композиции) — произведение матриц. Именно поэтому матрицы вообще были придуманы так, а не иначе.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q39">
+  <span class="qa-badge">39</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Ядро и образ линейного отображения. Ранг и дефект</h2>
+  <div class="qa-answer"><p>Пусть <code>f : V → W</code> линейно.</p>
+<ul>
+<li><strong>Ядро</strong> <code>Ker f = {v ∈ V : f(v) = 0}</code> — подпространство в <code>V</code>.</li>
+<li><strong>Образ</strong> <code>Im f = {f(v) : v ∈ V}</code> — подпространство в <code>W</code>.</li>
+<li><strong>Ранг</strong> <code>rk f = dim Im f</code>; <strong>дефект</strong> <code>def f = dim Ker f</code>.</li>
+</ul>
+<p><strong>Критерии:</strong> <code>f</code> инъективно <code>⇔ Ker f = {0}</code> (дефект 0); <code>f</code> сюръективно <code>⇔ Im f = W</code>.</p>
+<p>Эти два числа связаны теоремой о ранге и дефекте (вопрос 41).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Ядро — это «что схлопывается в ноль», образ — «куда вообще можно попасть». Ранг = размер образа, дефект = размер ядра. Если ядро пустое (только ноль) — отображение ничего не склеивает (инъективно).</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q40">
+  <span class="qa-badge">40</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Нахождение ядра линейного оператора</h2>
+  <div class="qa-answer"><p><strong>Метод.</strong> Пусть оператор <code>φ</code> имеет в базисе матрицу <code>A</code>. Тогда <code>Ker φ</code> — это множество решений однородной системы <code>Ax = 0</code>.</p>
+<p><strong>Алгоритм:</strong></p>
+<ol>
+<li>записать матрицу <code>A</code> оператора;</li>
+<li>решить <code>Ax = 0</code> методом Гаусса;</li>
+<li>фундаментальная система решений даёт базис ядра;</li>
+<li><code>def φ = dim Ker φ = n − rk A</code>.</li>
+</ol>
+<p><strong>Образ.</strong> Базис <code>Im φ</code> — это максимальная линейно независимая подсистема столбцов <code>A</code> (или образы базисных векторов).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Чтобы найти ядро, решают систему «матрица × вектор = 0» методом Гаусса: её решения и есть ядро. Размер ядра = число переменных минус ранг. Образ же «собирается» из столбцов матрицы.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q41">
+  <span class="qa-badge">41</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Теорема о ранге и дефекте линейного оператора</h2>
+  <div class="qa-answer"><p><strong>Теорема о ранге и дефекте.</strong> Для линейного отображения <code>f : V → W</code> с конечномерным <code>V</code>:</p>
+<p style="text-align:center"><code>dim Ker f + dim Im f = dim V</code></p>
+<p>то есть <code>дефект + ранг = размерность области определения</code>.</p>
+<p><strong>Идея доказательства.</strong> Берём базис ядра, дополняем его до базиса <code>V</code>; образы добавленных векторов образуют базис <code>Im f</code>.</p>
+<p><strong>Следствия:</strong> для оператора <code>φ: V→V</code> инъективность <code>⇔</code> сюръективность <code>⇔</code> обратимость (вопрос 44).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Самая важная формула: «что склеилось» (дефект) плюс «что выжило» (ранг) = всё, с чем начинали (размерность V). Отсюда: если оператор из пространства в себя ничего не склеивает, то он и на всё попадает — и наоборот.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q42">
+  <span class="qa-badge">42</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Пространство линейных операторов и его связь с пространством матриц</h2>
+  <div class="qa-answer"><p><strong>Пространство операторов.</strong> Множество всех линейных операторов <code>L(V)</code> (обозн. также <code>End(V)</code>) относительно сложения и умножения на скаляр является векторным пространством.</p>
+<p><strong>Размерность.</strong> Если <code>dim V = n</code>, то <code>dim L(V) = n²</code>.</p>
+<p><strong>Связь с матрицами.</strong> Фиксация базиса задаёт изоморфизм <code>L(V) ≅ M_n(K)</code> с пространством квадратных матриц. Этот изоморфизм сохраняет и умножение (композиция ↔ произведение матриц), то есть является изоморфизмом алгебр.</p>
+<p><strong>Базис.</strong> Операторы <code>E_{ij}</code> (матричные единицы) образуют базис из <code>n²</code> операторов.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Все линейные операторы на пространстве сами образуют пространство (их можно складывать и умножать на число). Если зафиксировать базис, каждый оператор — это n×n матрица, поэтому размерность равна n² (столько в матрице клеток). Это и был вопрос про «n в квадрате».</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q43">
+  <span class="qa-badge">43</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Автоморфизмы векторных пространств</h2>
+  <div class="qa-answer"><p><strong>Определения.</strong> <strong>Изоморфизм</strong> — это линейное биективное отображение <code>V → W</code>. <strong>Автоморфизм</strong> — это изоморфизм пространства на себя (обратимый линейный оператор).</p>
+<p><strong>Различие изоморфизма и просто биекции.</strong> Биекция — это любое взаимно однозначное соответствие множеств, она может не уважать сложение/умножение. Изоморфизм — это биекция, которая ещё и <em>линейна</em> (сохраняет структуру).</p>
+<p><strong>Группа.</strong> Множество всех автоморфизмов <code>V</code> относительно композиции образует группу <code>GL(V)</code> (общая линейная группа); в базисе ей соответствуют обратимые матрицы <code>GL_n(K)</code>.</p>
+<p><strong>Факт.</strong> Два конечномерных пространства изоморфны <code>⇔</code> равны их размерности.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Изоморфизм — это «переименование» пространства без потери структуры: всё, что верно в одном, верно и в другом. Отличие от просто биекции: биекция просто «переставляет точки», а изоморфизм ещё и уважает сложение и растяжение. Автоморфизм — это «обратимое преобразование пространства в себя».</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q44">
+  <span class="qa-badge">44</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Условия обратимости линейного оператора</h2>
+  <div class="qa-answer"><p><strong>Критерий обратимости.</strong> Для оператора <code>φ : V → V</code> на конечномерном <code>V</code> следующие условия равносильны:</p>
+<ol>
+<li><code>φ</code> обратим (есть <code>φ⁻¹</code>);</li>
+<li><code>φ</code> инъективен: <code>Ker φ = {0}</code> (дефект 0);</li>
+<li><code>φ</code> сюръективен: <code>Im φ = V</code>;</li>
+<li><code>rk φ = n</code> (полный ранг);</li>
+<li>матрица <code>A</code> невырождена: <code>det A ≠ 0</code>;</li>
+<li><code>φ</code> переводит (какой-то) базис в базис.</li>
+</ol>
+<p><strong>Важно.</strong> Именно в конечномерном случае «инъективность ⇔ сюръективность» (следствие теоремы о ранге и дефекте). Для бесконечномерных это неверно.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Оператор обратим, если он ничего не теряет и ничего не склеивает. На экзамене проверяют любой из эквивалентов: ядро = только ноль, ранг полный, определитель не нуль, базис переходит в базис. В конечномерном пространстве достаточно проверить что-то одно.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q45">
+  <span class="qa-badge">45</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Инвариантные подпространства, матрица линейного оператора при наличии инвариантного подпространства</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Подпространство <code>U ⊆ V</code> называется <strong>инвариантным</strong> относительно оператора <code>φ</code>, если <code>φ(U) ⊆ U</code> (оператор не выводит векторы из <code>U</code>).</p>
+<p><strong>Примеры:</strong> <code>{0}</code>, всё <code>V</code>, <code>Ker φ</code>, <code>Im φ</code>, любое собственное подпространство <code>V_λ</code>.</p>
+<p><strong>Блочный вид матрицы.</strong> Если <code>U</code> инвариантно и мы выбираем базис, первые векторы которого лежат в <code>U</code>, то матрица приобретает <strong>блочно-треугольный</strong> вид:</p>
+<p style="text-align:center"><code>A = [[B, C], [0, D]]</code></p>
+<p>где <code>B</code> — матрица ограничения <code>φ</code> на <code>U</code>. Если же всё пространство распадается в прямую сумму инвариантных подпространств, матрица становится <strong>блочно-диагональной</strong>.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Инвариантное подпространство — это «комната, из которой оператор не выпускает векторы». Если такая комната есть, можно выбрать базис так, чтобы матрица стала проще (с нулевым углом). А если всё распадается на такие комнаты — матрица становится блочной по диагонали.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q46">
+  <span class="qa-badge">46</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Сумма и пересечение инвариантных подпространств</h2>
+  <div class="qa-answer"><p><strong>Теорема.</strong> Если <code>U</code> и <code>W</code> инвариантны относительно <code>φ</code>, то инвариантны и их сумма <code>U + W</code>, и пересечение <code>U ∩ W</code>.</p>
+<p><strong>Доказательство (схема).</strong></p>
+<ul>
+<li>Пересечение: если <code>v ∈ U ∩ W</code>, то <code>φ(v) ∈ U</code> (т.к. <code>U</code> инвариантно) и <code>φ(v) ∈ W</code>, значит <code>φ(v) ∈ U ∩ W</code>.</li>
+<li>Сумма: если <code>v = u + w</code>, то <code>φ(v) = φ(u) + φ(w) ∈ U + W</code>.</li>
+</ul>
+<p><strong>Следствие.</strong> Система инвариантных подпространств замкнута относительно этих операций (образует решётку).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Если две «комнаты» не выпускают векторы наружу, то и их общая часть, и их «объединённое пространство» тоже не выпускают. Просто проверяем определение на сумме и пересечении.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q47">
+  <span class="qa-badge">47</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Собственное значение и собственный вектор оператора</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Ненулевой вектор <code>v ≠ 0</code> называется <strong>собственным</strong> для оператора <code>φ</code>, если <code>φ(v) = λv</code> для некоторого скаляра <code>λ</code>. Число <code>λ</code> называется <strong>собственным значением</strong>.</p>
+<p><strong>Геометрический смысл.</strong> Оператор на собственном векторе действует просто как растяжение/сжатие (в <code>λ</code> раз), не меняя направления.</p>
+<p><strong>Характеристическое уравнение.</strong> <code>λ</code> является собственным значением <code>⇔ det(A − λE) = 0</code>. Многочлен <code>χ(λ) = det(A − λE)</code> называется характеристическим.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Собственный вектор — это «особое направление», которое оператор не поворачивает, а только растягивает или сжимает. Насколько растягивает — это собственное значение λ. Ищут их через уравнение det(A − λE)=0.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q48">
+  <span class="qa-badge">48</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Линейная независимость собственных векторов, принадлежащих попарно различным собственным значениям</h2>
+  <div class="qa-answer"><p><strong>Теорема.</strong> Собственные векторы <code>v₁,…,v_k</code>, отвечающие <em>попарно различным</em> собственным значениям <code>λ₁,…,λ_k</code>, линейно независимы.</p>
+<p><strong>Доказательство (индукция).</strong> Пусть <code>α₁v₁ + … + α_k v_k = 0</code>. Применим <code>φ</code> и вычтем исходное равенство, умноженное на <code>λ_k</code>; последнее слагаемое исчезает, а коэффициенты при остальных домножаются на <code>(λ_i − λ_k) ≠ 0</code>. По индукции все <code>α_i = 0</code>.</p>
+<p><strong>Следствие.</strong> Если оператор в <code>n</code>-мерном пространстве имеет <code>n</code> различных собственных значений, то он диагонализуем (есть базис из собственных векторов).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Векторы с разными собственными значениями «смотрят в разные стороны» и не могут быть выражены друг через друга — они независимы. А если разных собственных чисел столько же, сколько размерность — оператор приводится к диагональному виду.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q49">
+  <span class="qa-badge">49</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Подпространство Vλ</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> Для собственного значения <code>λ</code> множество</p>
+<p style="text-align:center"><code>V_λ = {v ∈ V : φ(v) = λv} = Ker(φ − λ·id)</code></p>
+<p>называется <strong>собственным подпространством</strong>. Это подпространство (ядро оператора), состоящее из всех собственных векторов с данным <code>λ</code> и нуля.</p>
+<p><strong>Свойства:</strong></p>
+<ul>
+<li><code>V_λ</code> инвариантно относительно <code>φ</code>;</li>
+<li><strong>геометрическая кратность</strong> <code>dim V_λ</code> не превосходит <strong>алгебраическую</strong> (кратность корня в характеристическом многочлене);</li>
+<li>сумма собственных подпространств по разным <code>λ</code> — прямая.</li>
+</ul>
+<p><strong>Критерий диагонализуемости.</strong> Оператор диагонализуем <code>⇔</code> сумма размерностей всех <code>V_λ</code> равна <code>n</code> (геом. кратности совпадают с алгебраическими).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Vλ — это «собрание» всех векторов, которые оператор растягивает ровно в λ раз (плюс ноль). Оно показывает, «сколько независимых направлений» с данным растяжением. Если таких направлений в сумме хватает на всё пространство — оператор диагонализуется.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q50">
+  <span class="qa-badge">50</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Нахождение собственных векторов и собственных значений</h2>
+  <div class="qa-answer"><p><strong>Алгоритм.</strong></p>
+<ol>
+<li>Составить характеристический многочлен <code>χ(λ) = det(A − λE)</code>.</li>
+<li>Найти его корни <code>λ₁,…,λ_k</code> — это собственные значения (с учётом кратности).</li>
+<li>Для каждого <code>λ_i</code> решить однородную систему <code>(A − λ_i E)x = 0</code>; её ненулевые решения — собственные векторы, а ФСР даёт базис <code>V_{λ_i}</code>.</li>
+</ol>
+<p><strong>Кратности.</strong> Сравнивая геометрическую кратность (<code>dim V_λ</code>) с алгебраической, определяют диагонализуемость. Пример полного разбора — в практике (задача П1, оператор проекции).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Сначала находят числа λ (решая уравнение det(A − λE)=0), а потом для каждого λ решают систему и находят сами векторы. Это два шага: «найди на сколько растягивает» и «найди, какие именно направления».</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q51">
+  <span class="qa-badge">51</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Теорема Гамильтона – Кэли. Характеристический многочлен оператора и матрицы</h2>
+  <div class="qa-answer"><p><strong>Характеристический многочлен.</strong> <code>χ_A(λ) = det(A − λE)</code> — многочлен степени <code>n</code>. Он не зависит от выбора базиса (инвариант подобия), поэтому говорят о характеристическом многочлене оператора.</p>
+<p><strong>Теорема Гамильтона – Кэли.</strong> Каждая квадратная матрица (оператор) является корнем своего характеристического многочлена:</p>
+<p style="text-align:center"><code>χ_A(A) = 0</code></p>
+<p><strong>Применения:</strong> выражение обратной матрицы как многочлена от <code>A</code>; вычисление высоких степеней <code>Aⁿ</code> через младшие.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Характеристический многочлен — это многочлен, корни которого — собственные значения. Теорема Гамильтона–Кэли говорит удивительную вещь: если в этот многочлен «подставить» саму матрицу, получится ноль. Это позволяет выражать большие степени матрицы через маленькие.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q52">
+  <span class="qa-badge">52</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Минимальный многочлен оператора и матрицы</h2>
+  <div class="qa-answer"><p><strong>Определение.</strong> <strong>Минимальный многочлен</strong> <code>μ(t)</code> оператора — это нормированный (со старшим коэффициентом 1) многочлен наименьшей степени, для которого <code>μ(φ) = 0</code>.</p>
+<p><strong>Свойства:</strong></p>
+<ul>
+<li><code>μ(t)</code> делит любой многочлен, аннулирующий <code>φ</code> (в частности, делит характеристический <code>χ</code>);</li>
+<li><code>μ</code> и <code>χ</code> имеют одинаковые корни (собственные значения), но возможно с меньшими кратностями;</li>
+<li>подобные матрицы имеют один и тот же <code>μ</code>.</li>
+</ul>
+<p><strong>Критерий диагонализуемости.</strong> Оператор диагонализуем <code>⇔</code> минимальный многочлен разлагается на <em>различные</em> линейные множители (нет кратных корней).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Минимальный многочлен — это самый «короткий» многочлен, который обнуляет матрицу. Он делит характеристический и хранит «самую важную» информацию об операторе. Если у него нет повторяющихся корней — оператор диагонализуется.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="q53">
+  <span class="qa-badge">53</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Определение и вычисление жордановой нормальной формы и канонического базиса</h2>
+  <div class="qa-answer"><p><strong>Жорданова клетка.</strong> Клетка <code>J_k(λ)</code> — это <code>k×k</code> матрица с <code>λ</code> на диагонали и единицами над ней.</p>
+<p><strong>Теорема о ЖНФ.</strong> Над алгебраически замкнутым полем (например <code>ℂ</code>) любой оператор в подходящем (жордановом, каноническом) базисе имеет блочно-диагональную матрицу из жордановых клеток; эта форма единственна с точностью до порядка клеток.</p>
+<p><strong>Алгоритм вычисления:</strong></p>
+<ol>
+<li>найти собственные значения (корни <code>χ</code>);</li>
+<li>для каждого <code>λ</code> определить число и размеры клеток по рангам степеней <code>(A − λE)ᵐ</code>: число клеток размера <code>≥ m</code> равно <code>rk(A−λE)⁽ᵐ⁻¹⁾ − rk(A−λE)ᵐ</code>;</li>
+<li>построить канонический базис из жордановых цепочек (векторы <code>(A−λE)vₖ = vₖ₋₁</code>).</li>
+</ol>
+<p>ЖНФ — самая «почти диагональная» форма для недиагонализуемых операторов.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Если оператор нельзя сделать чисто диагональным, его приводят к «почти диагональному» виду: по диагонали — собственные числа, а над ними иногда единички (это и есть жордановы клетки). Канонический базис — это «удобные оси», в которых матрица выглядит максимально просто.</p></div>
+  </div>
+</section>
+
+  <div class="section-divider" id="practice"><h2>Часть II. Практика</h2><p>Экзаменационные задачи с полными решениями</p></div>
+  <nav class="qa-toc"><ol><li><a href="#p1">1. Билет №1, задание 3. Базис суммы и пересечения подпространств</a></li><li><a href="#p2">2. Билет №7, задание 3. Линейную оболочку задать системой уравнений</a></li><li><a href="#p3">3. Билет №10, задание 3. Оператор проекции на плоскость x+y=z</a></li><li><a href="#p4">4. Исследование матриц на подобие</a></li><li><a href="#p5">5. Вопросы устной части (краткие ответы)</a></li></ol></nav>
+  <section class="qa-section" id="p1">
+  <span class="qa-badge" data-kind="p">П1</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Билет №1, задание 3. Базис суммы и пересечения подпространств</h2>
+  <div class="notion-callout" data-tone="orange">
+    <div>📝</div>
+    <div><strong>Условие</strong><p>Найти базис суммы и пересечения подпространств <code>U = ⟨a₁,a₂,a₃⟩</code> и <code>W = ⟨b₁,b₂,b₃⟩</code> в <code>ℝ⁵</code>:</p>
+<pre class="notion-code"><code>a₁ = (8, 14, 2, 10, 4)      b₁ = (5, 8, -7, 4, 2)
+a₂ = (7, 13, 10, 11, 7)     b₂ = (27, 47, 4, 33, 25)
+a₃ = (0, 1, 11, 3, 3)       b₃ = (-3, -5, 2, -3, 1)</code></pre></div>
+  </div>
+  <div class="qa-answer"><p><strong>Шаг 1. Размерности U и W.</strong> Записываем векторы каждой системы в строки матрицы и приводим к ступенчатому виду. Обе системы дают по 3 ненулевые строки, значит <code>dim U = 3</code> и <code>dim W = 3</code> (векторы внутри каждой системы линейно независимы).</p>
+<p><strong>Шаг 2. Сумма U + W.</strong> Складываем все шесть векторов в одну матрицу (6×5) и приводим к RREF. Получается всего <strong>3</strong> ненулевые строки:</p>
+<pre class="notion-code"><code>(1, 0, -19, -4, 0)
+(0, 1,  11,  3, 0)
+(0, 0,   0,  0, 1)</code></pre>
+<p>Значит <code>dim(U + W) = 3</code>.</p>
+<p><strong>Шаг 3. Главный вывод.</strong> Так как <code>dim U = dim W = dim(U+W) = 3</code>, то <code>U = W = U + W</code> — обе системы порождают <em>одно и то же</u> трёхмерное подпространство.</p>
+<p><strong>Шаг 4. Пересечение.</strong> По формуле Грассмана <code>dim(U∩W) = dim U + dim W − dim(U+W) = 3 + 3 − 3 = 3</code>. Значит <code>U ∩ W = U = W</code>.</p>
+<p><strong>Ответ.</strong> Базис суммы и базис пересечения совпадают:</p>
+<pre class="notion-code"><code>e₁ = (1, 0, -19, -4, 0)
+e₂ = (0, 1,  11,  3, 0)
+e₃ = (0, 0,   0,  0, 1)</code></pre>
+<p>(размерность суммы = 3, размерность пересечения = 3).</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Каждый набор векторов «закрашивает» какое-то плоское (трёхмерное) «облако» внутри 5-мерного пространства. Мы свели оба облака к «чистому виду» методом Гаусса и увидели, что это <em>одно и то же облако</em>. Поэтому и сумма («объединить»), и пересечение («общая часть») — это то же самое подпространство. Главный трюк задачи: не испугаться больших чисел и честно прогнать Гаусса.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="p2">
+  <span class="qa-badge" data-kind="p">П2</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Билет №7, задание 3. Линейную оболочку задать системой уравнений</h2>
+  <div class="notion-callout" data-tone="orange">
+    <div>📝</div>
+    <div><strong>Условие</strong><p>Линейную оболочку системы векторов задать системой линейных уравнений:</p>
+<pre class="notion-code"><code>v₁ = (-1, 1, -1, 1, -1),   v₂ = (1, 2, 3, 4, 5)</code></pre></div>
+  </div>
+  <div class="qa-answer"><p><strong>Идея.</strong> Оболочка <code>L = ⟨v₁, v₂⟩</code> — это 2-мерное подпространство в <code>ℝ⁵</code>. Чтобы задать его уравнениями, нужно <code>5 − 2 = 3</code> независимых уравнения. Вектор <code>x</code> лежит в <code>L</code> тогда и только тогда, когда он ортогонален всем векторам <code>c</code>, которые ортогональны и <code>v₁</code>, и <code>v₂</code>.</p>
+<p><strong>Шаг 1.</strong> Ищем все <code>c = (c₁,…,c₅)</code> с условиями <code>c·v₁ = 0</code> и <code>c·v₂ = 0</code>. Это однородная система с матрицей, строки которой <code>v₁, v₂</code>. После RREF:</p>
+<pre class="notion-code"><code>(1, 0, 5/3, 2/3, 7/3)
+(0, 1, 2/3, 5/3, 4/3)</code></pre>
+<p><strong>Шаг 2.</strong> Свободные переменные — <code>c₃, c₄, c₅</code>. Получаем ФСР (умножив на 3 для целых чисел):</p>
+<pre class="notion-code"><code>c¹ = (-5, -2, 3, 0, 0)
+c² = (-2, -5, 0, 3, 0)
+c³ = (-7, -4, 0, 0, 3)</code></pre>
+<p><strong>Ответ.</strong> Каждый вектор <code>c</code> даёт уравнение <code>c·x = 0</code>. Оболочка <code>L</code> задаётся системой:</p>
+<pre class="notion-code"><code>-5·x₁ - 2·x₂ + 3·x₃           = 0
+-2·x₁ - 5·x₂         + 3·x₄     = 0
+-7·x₁ - 4·x₂               + 3·x₅ = 0</code></pre>
+<p><strong>Проверка.</strong> Подставим <code>v₁</code>: „-5(-1)-2(1)+3(-1) = 5-2-3 = 0“ — и т.д. Все три уравнения обращаются в 0 для <code>v₁</code> и <code>v₂</code>. ✓</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Оболочка — это «плоскость», натянутая на два вектора. Её можно описать двумя способами: «вот образующие векторы» или «вот уравнения, которым должны удовлетворять точки». Мы переходим от первого ко второму: ищем все «направления-проверки» (векторы c), перпендикулярные обоим векторам. Их ровно 3, и они дают 3 уравнения.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="p3">
+  <span class="qa-badge" data-kind="p">П3</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Билет №10, задание 3. Оператор проекции на плоскость x+y=z</h2>
+  <div class="notion-callout" data-tone="orange">
+    <div>📝</div>
+    <div><strong>Условие</strong><p>Найти ядро, образ, ранг, дефект, собственные векторы и собственные значения для оператора проекции на плоскость <code>x + y = z</code> в <code>ℝ³</code>.</p>
+<p><em>(Рассматриваем ортогональную проекцию; плоскость проходит через 0, поэтому проекция линейна.)</em></p></div>
+  </div>
+  <div class="qa-answer"><p><strong>Шаг 1. Плоскость и нормаль.</strong> Плоскость <code>x + y − z = 0</code> имеет нормаль <code>n = (1, 1, -1)</code>, <code>n·n = 3</code>.</p>
+<p><strong>Шаг 2. Матрица проекции.</strong> <code>P = E − (n nᵀ)/(n·n)</code>:</p>
+<pre class="notion-code"><code>      ⎡  2/3  -1/3   1/3 ⎤
+P =   ⎢ -1/3   2/3   1/3 ⎥
+      ⎣  1/3   1/3   2/3 ⎦</code></pre>
+<p>Проверка «проектора»: <code>P² = P</code> — выполняется. ✓</p>
+<p><strong>Шаг 3. Образ.</strong> <code>Im P</code> = сама плоскость <code>x + y − z = 0</code>. Базис: <code>(1, -1, 0)</code> и <code>(1, 0, 1)</code>. Значит <code>rk P = 2</code> (ранг).</p>
+<p><strong>Шаг 4. Ядро.</strong> <code>ker P</code> = направление нормали <code>⟨(1, 1, -1)⟩</code>. Дефект <code>= 1</code>. Проверка: <code>2 + 1 = 3 = dim ℝ³</code>. ✓</p>
+<p><strong>Шаг 5. Собственные значения и векторы.</strong> Проектор имеет только два собственных значения:</p>
+<ul>
+<li><code>λ = 1</code> (кратность 2): векторы на плоскости не меняются. Собственные векторы: <code>(1, -1, 0)</code>, <code>(1, 0, 1)</code>.</li>
+<li><code>λ = 0</code> (кратность 1): нормаль «схлопывается» в 0. Собственный вектор: <code>(1, 1, -1)</code>.</li>
+</ul>
+<p><strong>Диагонализируемость.</strong> Да: есть базис из собственных векторов, в нём матрица = <code>diag(1, 1, 0)</code>. Любой проектор всегда диагонализируем.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Проекция на плоскость — это «тень»: свет падает перпендикулярно плоскости, и каждая точка пространства падает на плоскость. То, что уже лежит на плоскости, остаётся на месте (это образ, собственное значение 1). То, что торчит перпендикулярно (направление нормали), при проекции исчезает (это ядро, собственное значение 0). Поэтому: образ — плоскость (2 измерения), ядро — прямая-нормаль (1 измерение).</p></div>
+  </div>
+</section>
+<section class="qa-section" id="p4">
+  <span class="qa-badge" data-kind="p">П4</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Исследование матриц на подобие</h2>
+  <div class="notion-callout" data-tone="orange">
+    <div>📝</div>
+    <div><strong>Условие</strong><p>Как проверить, подобны ли две матрицы <code>A</code> и <code>B</code> (то есть <code>B = S⁻¹ A S</code> для некоторой обратимой <code>S</code>).</p></div>
+  </div>
+  <div class="qa-answer"><p><strong>Необходимые условия (быстрые проверки).</strong> У подобных матриц совпадают:</p>
+<ul>
+<li>характеристический многочлен <code>det(A − λE)</code> (а значит и собственные значения с кратностями);</li>
+<li>след <code>tr A</code>, определитель <code>det A</code>, ранг.</li>
+</ul>
+<p>Если хоть одна из этих величин различна — матрицы не подобны.</p>
+<p><strong>Полный критерий.</strong> Матрицы подобны <code>⇔</code> у них одинаковая <strong>жорданова нормальная форма</strong> (с точностью до порядка клеток) — над алгебраически замкнутым полем. Над любым полем эквивалентный инвариант — набор инвариантных множителей (каноническая форма Смита матрицы <code>λE − A</code>).</p>
+<p><strong>Практический алгоритм.</strong> Посчитать ЖНФ обеих матриц (собственные значения + размеры клеток через ранги <code>(A − λE)^k</code>); совпадают — подобны.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Подобие — это «один и тот же оператор, но записанный в разных базисах» (как один человек в разных очках). Чтобы проверить, сначала сравниваем «паспортные данные»: след, определитель, собственные значения. Если хоть что-то не совпало — это разные. Если всё совпало — приводим обе к самому простому виду (ЖНФ) и смотрим, одинакова ли она.</p></div>
+  </div>
+</section>
+<section class="qa-section" id="p5">
+  <span class="qa-badge" data-kind="p">П5</span><a class="qa-top" href="#top">↑ наверх</a>
+  <h2>Вопросы устной части (краткие ответы)</h2>
+  <div class="notion-callout" data-tone="orange">
+    <div>📝</div>
+    <div><strong>Условие</strong><p>Набор «ловушек» и коротких вопросов, которые спрашивали на экзамене.</p></div>
+  </div>
+  <div class="qa-answer"><p><strong>1. Размерность пространства линейных операторов.</strong> В <code>n</code>-мерном пространстве <code>dim L(V) = n²</code>. После фиксации базиса каждому оператору соответствует матрица <code>n×n</code>, а это изоморфизм <code>L(V) ≅ M_n(K)</code>, размерность которого <code>n²</code>.</p>
+<p><strong>2. Что зафиксировать для связи «операторы ↔ матрицы».</strong> Нужно зафиксировать <strong>базис пространства</strong> (один и тот же для «входа» и «выхода»). Без фиксированного базиса матрицы нет.</p>
+<p><strong>3. Доказать, является ли отображение линейным оператором.</strong> Проверяем два свойства: <code>φ(u + v) = φ(u) + φ(v)</code> и <code>φ(αv) = αφ(v)</code>. Если оба выполнены — линейный; иначе приводим контрпример (например, наличие свободного члена или квадрата ломает линейность).</p>
+<p><strong>4. Изоморфизм против биекции.</strong> Биекция — просто взаимно однозначное соответствие. Изоморфизм — это биекция, которая ещё и <em>сохраняет операции</em> (линейна). Для конечномерных пространств: линейное биективное отображение автоматически изоморфизм.</p>
+<p><strong>5. Критерий обратимости оператора.</strong> <code>φ</code> обратим <code>⇔ ker φ = {0} ⇔ rk φ = n ⇔ det A ≠ 0 ⇔ φ</code> переводит базис в базис.</p>
+<p><strong>6. Матрица оператора, которая не меняется при смене базиса.</strong> Это <strong>скалярная матрица</strong> <code>λE</code> (оператор <code>λ·id</code>). Причина: матрица не меняется <code>⇔ S⁻¹ A S = A</code> для всех обратимых <code>S</code> <code>⇔ A</code> коммутирует со всеми матрицами <code>⇔ A = λE</code>.</p>
+<p><strong>7. Поле <code>{0, 1}</code> и единственный базис.</strong> <code>{0, 1}</code> — это поле из двух элементов <code>𝔽₂</code> (GF(2)), с арифметикой по модулю 2. Именно над <code>𝔽₂</code> базис одномерного пространства единствен: единственный ненулевой скаляр — это <code>1</code>, поэтому вектор нельзя «перемасштабировать» и получить другой базис. Над любым более богатым полем вектор можно умножить на любой ненулевой скаляр — и базисов уже много.</p></div>
+  <div class="notion-callout" data-tone="blue">
+    <div>💡</div>
+    <div><strong>Простыми словами</strong><p>Это короткие «на знание» вопросы. Главные факты для запоминания: операторов ровно «матриц n×n» (поэтому n²); связь даёт фиксация базиса; линейность — это «сложение и растяжение не ломаются»; изоморфизм = биекция + линейность; одинаковая в любом базисе — только скалярная λE; «поле (0;1)» — это 𝔽₂, и именно в нём базис (одномерного пространства) единственен.</p></div>
+  </div>
+</section>
+
+  <footer class="notion-footer">Подготовлено для подготовки к экзамену по курсу «Алгебра и теория чисел».</footer>
+</main>
+</body>
+</html>
